@@ -19,8 +19,8 @@ default-features = false
 features = ["std"]
 
 [dependencies]
-capnp-futures = { version = "0.25.0", path = "../capnp-futures" }
-capnp = {version = "0.25.0", path = "../capnp"}
+capnp-futures = { version = "0.25.0" }
+capnp = { version = "0.25.0" }
 
 [lints]
 workspace = true
