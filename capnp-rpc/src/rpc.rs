@@ -180,6 +180,7 @@ where
     connection_state: Rc<ConnectionState<VatId>>,
     id: QuestionId,
     fulfiller: Option<oneshot::Sender<Promise<Response<VatId>, Error>>>,
+    pipelines: Vec<Weak<RefCell<PipelineState<VatId>>>>,
 }
 
 impl<VatId> QuestionRef<VatId> {
@@ -192,6 +193,7 @@ impl<VatId> QuestionRef<VatId> {
             connection_state: state,
             id,
             fulfiller: Some(fulfiller),
+            pipelines: Vec::new(),
         }
     }
     fn fulfill(&mut self, response: Promise<Response<VatId>, Error>) {
@@ -202,7 +204,12 @@ impl<VatId> QuestionRef<VatId> {
 
     fn reject(&mut self, err: Error) {
         if let Some(fulfiller) = self.fulfiller.take() {
-            let _ = fulfiller.send(Promise::err(err));
+            let _ = fulfiller.send(Promise::err(err.clone()));
+        }
+        // The RPC driver may have unwound. Its scheduled pipeline resolvers
+        // cannot be relied on to release the application's response barrier.
+        for pipeline in self.pipelines.drain(..).filter_map(|p| p.upgrade()) {
+            PipelineState::resolve(&pipeline, Err(err.clone()));
         }
     }
 }
@@ -425,6 +432,29 @@ impl<VatId> crate::task_set::TaskReaper<capnp::Error> for ConnectionErrorHandler
     }
 }
 
+// Catch each teardown target independently and preserve the first panic's
+// original payload. A secondary payload may itself have a panicking Drop.
+fn catch_disconnect_panic<T>(
+    first: &mut Option<Box<dyn std::any::Any + Send>>,
+    action: impl FnOnce() -> T,
+) -> Option<T> {
+    match std::panic::catch_unwind(std::panic::AssertUnwindSafe(action)) {
+        Ok(value) => Some(value),
+        Err(panic) => {
+            if first.is_none() {
+                *first = Some(panic);
+            } else if let Err(nested) =
+                std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| drop(panic)))
+            {
+                // There is no safe general way to destroy a recursively
+                // panicking payload. Retain the causal failure, not this one.
+                mem::forget(nested);
+            }
+            None
+        }
+    }
+}
+
 pub struct ConnectionState<VatId>
 where
     VatId: 'static,
@@ -485,110 +515,118 @@ impl<VatId> ConnectionState<VatId> {
     }
 
     fn disconnect(&self, error: ::capnp::Error) {
-        if self.connection.borrow().is_err() {
-            // Already disconnected.
-            return;
-        }
-
-        // Carefully pull all the objects out of the tables prior to releasing them because their
-        // destructors could come back and mess with the tables.
-        let mut pipelines_to_release = Vec::new();
-        let mut clients_to_release = Vec::new();
-        //let mut tail_calls_to_release = Vec::new();
-        let mut resolve_ops_to_release = Vec::new();
-
-        for q in self.questions.borrow().iter() {
-            if let Some(ref weak_question_ref) = q.self_ref {
-                if let Some(question_ref) = weak_question_ref.upgrade() {
-                    question_ref.borrow_mut().reject(error.clone());
-                }
+        let mut connection = {
+            let mut slot = self.connection.borrow_mut();
+            if slot.is_err() {
+                return;
             }
-        }
-
-        {
-            let answer_slots = &mut self.answers.borrow_mut().slots;
-            for (_, ref mut answer) in answer_slots.iter_mut() {
-                // TODO tail call
-                pipelines_to_release.push(answer.pipeline.take())
+            // Publish the terminal cause before any user-controlled drop or
+            // callback can reenter this connection.
+            match mem::replace(&mut *slot, Err(error.clone())) {
+                Ok(connection) => connection,
+                Err(_) => unreachable!(),
             }
-        }
-
-        let len = self.exports.borrow().slots.len();
-        for idx in 0..len {
-            if let Some(exp) = self.exports.borrow_mut().slots[idx].take() {
-                let Export {
-                    client_hook,
-                    resolve_op,
-                    ..
-                } = exp;
-                clients_to_release.push(client_hook);
-                resolve_ops_to_release.push(resolve_op);
-            }
-        }
-        *self.exports.borrow_mut() = ExportTable::new();
-
-        {
-            let import_slots = &mut self.imports.borrow_mut().slots;
-            for (_, ref mut import) in import_slots.iter_mut() {
-                if let Some(f) = import.promise_client_to_resolve.take() {
-                    if let Some(promise_client) = f.upgrade() {
-                        promise_client.borrow_mut().resolve(Err(error.clone()));
-                    }
-                }
-            }
-        }
-
-        let len = self.embargoes.borrow().slots.len();
-        for idx in 0..len {
-            if let Some(ref mut emb) = self.embargoes.borrow_mut().slots[idx] {
-                if let Some(f) = emb.fulfiller.take() {
-                    let _ = f.send(Err(error.clone()));
-                }
-            }
-        }
-        *self.embargoes.borrow_mut() = ExportTable::new();
-
-        drop(pipelines_to_release);
-        drop(clients_to_release);
-        drop(resolve_ops_to_release);
-        // TODO drop tail calls
-
-        match *self.connection.borrow_mut() {
-            Ok(ref mut c) => {
-                let mut message = c.new_outgoing_message(100); // TODO estimate size
-                {
-                    let builder = message
-                        .get_body()
-                        .unwrap()
-                        .init_as::<message::Builder>()
-                        .init_abort();
-                    from_error(&error, builder);
-                }
-                let _ = message.send();
-            }
-            Err(_) => unreachable!(),
-        }
-
-        let connection = mem::replace(&mut *self.connection.borrow_mut(), Err(error.clone()));
-
-        let Ok(mut c) = connection else {
-            unreachable!()
         };
-        let promise = c.shutdown(Err(error)).then(|r| match r {
+        let fulfiller = self.disconnect_fulfiller.borrow_mut().take();
+
+        // Extract every callback/drop target before invoking any of them.
+        // Resolving a pipeline can release its QuestionRef and revisit tables.
+        let questions: Vec<_> = self
+            .questions
+            .borrow()
+            .iter()
+            .filter_map(|q| q.self_ref.as_ref().and_then(Weak::upgrade))
+            .collect();
+        let pipelines: Vec<_> = self
+            .answers
+            .borrow_mut()
+            .slots
+            .values_mut()
+            .filter_map(|answer| answer.pipeline.take())
+            .collect();
+        let exports = mem::replace(&mut *self.exports.borrow_mut(), ExportTable::new());
+        self.exports_by_cap.borrow_mut().clear();
+        let mut clients = Vec::new();
+        let mut resolve_ops = Vec::new();
+        for export in exports.slots.into_iter().flatten() {
+            clients.push(export.client_hook);
+            resolve_ops.push(export.resolve_op);
+        }
+        let imports: Vec<_> = self
+            .imports
+            .borrow_mut()
+            .slots
+            .values_mut()
+            .filter_map(|import| import.promise_client_to_resolve.take())
+            .filter_map(|client| client.upgrade())
+            .collect();
+        let embargoes = mem::replace(&mut *self.embargoes.borrow_mut(), ExportTable::new());
+
+        let mut first_panic = None;
+        for question in questions {
+            catch_disconnect_panic(&mut first_panic, || {
+                question.borrow_mut().reject(error.clone())
+            });
+        }
+        for import in imports {
+            catch_disconnect_panic(&mut first_panic, || {
+                import.borrow_mut().resolve(Err(error.clone()))
+            });
+        }
+        for embargo in embargoes.slots.into_iter().flatten() {
+            if let Some(fulfiller) = embargo.fulfiller {
+                catch_disconnect_panic(&mut first_panic, || {
+                    let _ = fulfiller.send(Err(error.clone()));
+                });
+            }
+        }
+
+        // The removed transport is usable for the final abort/shutdown while
+        // all application-facing paths already observe a terminal connection.
+        catch_disconnect_panic(&mut first_panic, || {
+            let mut message = connection.new_outgoing_message(100);
+            from_error(
+                &error,
+                message
+                    .get_body()
+                    .unwrap()
+                    .init_as::<message::Builder>()
+                    .init_abort(),
+            );
+            let _ = message.send();
+        });
+        let shutdown =
+            catch_disconnect_panic(&mut first_panic, || connection.shutdown(Err(error.clone())))
+                .unwrap_or_else(|| Promise::err(error.clone()));
+        let shutdown = shutdown.then(|r| match r {
             Ok(()) => Promise::ok(()),
-            Err(e) => {
-                if e.kind != ::capnp::ErrorKind::Disconnected {
-                    // Don't report disconnects as an error.
-                    Promise::err(e)
-                } else {
-                    Promise::ok(())
-                }
+            Err(e) if e.kind == ::capnp::ErrorKind::Disconnected => Promise::ok(()),
+            Err(e) => Promise::err(e),
+        });
+
+        // Each ownership edge gets its own unwind boundary. In particular,
+        // dropping a Vec while unwinding must not trigger a second destructor
+        // panic and abort before unrelated exports have been released.
+        for pipeline in pipelines {
+            catch_disconnect_panic(&mut first_panic, || drop(pipeline));
+        }
+        for client in clients {
+            catch_disconnect_panic(&mut first_panic, || drop(client));
+        }
+        for resolve_op in resolve_ops {
+            catch_disconnect_panic(&mut first_panic, || drop(resolve_op));
+        }
+
+        // Deliver completion before reporting the first causal panic. A closed
+        // receiver can drop the transport, so guard that ownership release too.
+        catch_disconnect_panic(&mut first_panic, || {
+            if let Some(fulfiller) = fulfiller {
+                let _ = fulfiller.send(Promise::from_future(shutdown.attach(connection)));
             }
         });
-        let Some(fulfiller) = self.disconnect_fulfiller.borrow_mut().take() else {
-            unreachable!()
-        };
-        let _ = fulfiller.send(Promise::from_future(promise.attach(c)));
+        if let Some(panic) = first_panic {
+            std::panic::resume_unwind(panic);
+        }
     }
 
     // Transform a future into a promise that gets executed even if it is never polled.
@@ -1651,7 +1689,8 @@ impl<VatId> Disconnector<VatId> {
         }
     }
     fn disconnect(&self) {
-        if let Some(ref state) = *(self.connection_state.borrow()) {
+        let state = self.connection_state.borrow().clone();
+        if let Some(state) = state {
             state.disconnect(::capnp::Error::disconnected(
                 "client requested disconnect".to_owned(),
             ));
@@ -1668,6 +1707,9 @@ where
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context) -> Poll<Self::Output> {
         self.state = match self.state {
             DisconnectorState::New => {
+                // disconnect() can report a destructor panic after completing
+                // terminalization. Do not repeat initiation after that unwind.
+                self.state = DisconnectorState::Disconnecting;
                 self.disconnect();
                 DisconnectorState::Disconnecting
             }
@@ -1958,6 +2000,15 @@ impl<VatId> RequestHook for Request<VatId> {
             mut message,
             cap_table,
         } = tmp;
+        // A request can outlive the connection it was constructed on. Check
+        // again at send admission, before writing descriptors or questions.
+        let terminal = connection_state.connection.borrow().as_ref().err().cloned();
+        if let Some(error) = terminal {
+            return ::capnp::capability::RemotePromise {
+                promise: Promise::err(error.clone()),
+                pipeline: any_pointer::Pipeline::new(Box::new(broken::Pipeline::new(error))),
+            };
+        }
         let write_target_result = {
             let call_builder: call::Builder = get_call(&mut message).unwrap();
             target.write_target(call_builder.get_target().unwrap())
@@ -2017,6 +2068,12 @@ impl<VatId> RequestHook for Request<VatId> {
             mut message,
             cap_table,
         } = tmp;
+        // Retained streaming requests must not recreate drained exports or
+        // questions, even when their flow controller already exists.
+        let terminal = connection_state.connection.borrow().as_ref().err().cloned();
+        if let Some(error) = terminal {
+            return Promise::err(error);
+        }
         let write_target_result = {
             let call_builder: call::Builder = get_call(&mut message).unwrap();
             target.write_target(call_builder.get_target().unwrap())
@@ -2126,34 +2183,35 @@ where
     VatId: 'static,
 {
     fn resolve(state: &Rc<RefCell<Self>>, response: Result<Response<VatId>, Error>) {
-        let to_resolve = {
-            let tmp = state.borrow();
-            let r = tmp.promise_clients_to_resolve.borrow_mut().drain();
-            r
-        };
-        for ((c, ops), _) in to_resolve {
-            let resolved = match response.clone() {
-                Ok(v) => match v.get() {
-                    Ok(x) => x.get_pipelined_cap(&ops),
-                    Err(e) => Err(e),
-                },
-                Err(e) => Err(e),
+        let (old_variant, to_resolve, waiters) = {
+            let mut state = state.borrow_mut();
+            if !matches!(state.variant, PipelineVariant::Waiting(_)) {
+                // A terminal rejection may precede the scheduled resolver.
+                return;
+            }
+            let new_variant = match response.clone() {
+                Ok(r) => PipelineVariant::Resolved(r),
+                Err(e) => PipelineVariant::Broken(e),
             };
-            if let Some(c) = c.upgrade() {
-                c.borrow_mut().resolve(resolved);
+            let old_variant = mem::replace(&mut state.variant, new_variant);
+            let to_resolve = state.promise_clients_to_resolve.borrow_mut().drain();
+            let waiters = state.resolution_waiters.drain();
+            (old_variant, to_resolve, waiters)
+        };
+        for ((client, ops), _) in to_resolve {
+            let resolved = match response.clone() {
+                Ok(value) => value.get().and_then(|value| value.get_pipelined_cap(&ops)),
+                Err(error) => Err(error),
+            };
+            if let Some(client) = client.upgrade() {
+                client.borrow_mut().resolve(resolved);
             }
         }
-
-        let new_variant = match response {
-            Ok(r) => PipelineVariant::Resolved(r),
-            Err(e) => PipelineVariant::Broken(e),
-        };
-        let _old_variant = mem::replace(&mut state.borrow_mut().variant, new_variant);
-
-        let waiters = state.borrow_mut().resolution_waiters.drain();
         for (_, waiter) in waiters {
             let _ = waiter.send(());
         }
+        // Dropping the question can reenter the connection's question table.
+        drop(old_variant);
     }
 }
 
@@ -2171,13 +2229,17 @@ impl<VatId> Pipeline<VatId> {
         redirect_later: Option<Promise<Response<VatId>, ::capnp::Error>>,
     ) -> Self {
         let state = Rc::new(RefCell::new(PipelineState {
-            variant: PipelineVariant::Waiting(question_ref),
+            variant: PipelineVariant::Waiting(question_ref.clone()),
             connection_state: connection_state.clone(),
             redirect_later: None,
             resolve_self_promise: Promise::from_future(future::pending()),
             promise_clients_to_resolve: RefCell::new(crate::sender_queue::SenderQueue::new()),
             resolution_waiters: crate::sender_queue::SenderQueue::new(),
         }));
+        question_ref
+            .borrow_mut()
+            .pipelines
+            .push(Rc::downgrade(&state));
         if let Some(redirect_later_promise) = redirect_later {
             let fork = redirect_later_promise.shared();
             let this = Rc::downgrade(&state);
@@ -2205,13 +2267,17 @@ impl<VatId> Pipeline<VatId> {
         question_ref: Rc<RefCell<QuestionRef<VatId>>>,
     ) -> Self {
         let state = Rc::new(RefCell::new(PipelineState {
-            variant: PipelineVariant::Waiting(question_ref),
+            variant: PipelineVariant::Waiting(question_ref.clone()),
             connection_state,
             redirect_later: None,
             resolve_self_promise: Promise::from_future(future::pending()),
             promise_clients_to_resolve: RefCell::new(crate::sender_queue::SenderQueue::new()),
             resolution_waiters: crate::sender_queue::SenderQueue::new(),
         }));
+        question_ref
+            .borrow_mut()
+            .pipelines
+            .push(Rc::downgrade(&state));
 
         Self { state }
     }
@@ -3231,7 +3297,12 @@ impl<VatId> ClientHook for Client<VatId> {
             ClientVariant::Import(_import_client) => None,
             ClientVariant::Pipeline(_pipeline_client) => None,
             ClientVariant::Promise(promise_client) => {
-                Some(promise_client.borrow_mut().resolution_waiters.push(()))
+                let mut client = promise_client.borrow_mut();
+                if client.is_resolved {
+                    Some(Promise::ok(client.cap.clone()))
+                } else {
+                    Some(client.resolution_waiters.push(()))
+                }
             }
         }
     }
@@ -3277,5 +3348,302 @@ impl PipelineHook for SingleCapPipeline {
         } else {
             broken::new_cap(Error::failed("Invalid pipeline transform.".to_string()))
         }
+    }
+}
+
+#[cfg(test)]
+mod terminalization_tests {
+    use super::*;
+    use crate::VatNetwork;
+    use std::panic::{catch_unwind, AssertUnwindSafe};
+
+    type Side = crate::rpc_twoparty_capnp::Side;
+
+    fn connection() -> (
+        TaskSet<Error>,
+        Rc<ConnectionState<Side>>,
+        oneshot::Receiver<Promise<(), Error>>,
+    ) {
+        let mut network = crate::twoparty::VatNetwork::new(
+            futures::io::Cursor::new(Vec::<u8>::new()),
+            futures::io::Cursor::new(Vec::<u8>::new()),
+            Side::Client,
+            Default::default(),
+        );
+        let (tx, rx) = oneshot::channel();
+        let (tasks, state) = ConnectionState::new(
+            broken::new_cap(Error::failed("unused bootstrap".into())),
+            network.connect(Side::Server).unwrap(),
+            tx,
+        );
+        (tasks, state, rx)
+    }
+
+    fn waiting_pipeline(state: &Rc<ConnectionState<Side>>) -> Pipeline<Side> {
+        let id = state.questions.borrow_mut().push(Question::new());
+        let (tx, rx) = oneshot::channel();
+        let question = Rc::new(RefCell::new(QuestionRef::new(state.clone(), id, tx)));
+        state.questions.borrow_mut().find(id).unwrap().self_ref = Some(Rc::downgrade(&question));
+        Pipeline::new(
+            state,
+            question,
+            Some(Promise::from_future(
+                rx.map_err(crate::canceled_to_error).and_then(|x| x),
+            )),
+        )
+    }
+
+    struct DropAction(Box<dyn Fn()>);
+    impl Drop for DropAction {
+        fn drop(&mut self) {
+            (self.0)();
+        }
+    }
+    #[derive(Clone)]
+    struct DropServer(Rc<DropAction>);
+    impl capnp::capability::Server for DropServer {
+        fn dispatch_call(
+            self,
+            _: u64,
+            _: u16,
+            _: capnp::capability::Params<any_pointer::Owned>,
+            _: capnp::capability::Results<any_pointer::Owned>,
+        ) -> capnp::capability::DispatchCallResult {
+            capnp::capability::DispatchCallResult {
+                promise: Promise::ok(()),
+                is_streaming: false,
+            }
+        }
+        fn as_ptr(&self) -> usize {
+            Rc::as_ptr(&self.0) as usize
+        }
+    }
+    fn export(state: &Rc<ConnectionState<Side>>, drop: impl Fn() + 'static) {
+        let hook = Box::new(local::Client::new(DropServer(Rc::new(DropAction(
+            Box::new(drop),
+        )))));
+        let ptr = hook.get_ptr();
+        let id = state.exports.borrow_mut().push(Export::new(hook));
+        state.exports_by_cap.borrow_mut().insert(ptr, id);
+    }
+
+    #[test]
+    fn disconnect_rejects_waiting_pipeline_without_polling_driver() {
+        let (_tasks, state, completion) = connection();
+        let pipeline = waiting_pipeline(&state);
+        let waiter = pipeline.when_resolved();
+        let promised = pipeline.get_pipelined_cap(&[]);
+        let resolution = promised.when_resolved();
+        let imported = ConnectionState::import(&state, 7, true);
+        let import_resolution = imported.when_resolved();
+        let (embargo_tx, embargo_rx) = oneshot::channel();
+        state.embargoes.borrow_mut().push(Embargo::new(embargo_tx));
+        state.disconnect(Error::disconnected("terminal cause".into()));
+        assert!(matches!(waiter.now_or_never(), Some(Ok(()))));
+        assert!(resolution.now_or_never().is_some());
+        assert!(promised.when_resolved().now_or_never().is_some());
+        assert!(import_resolution.now_or_never().is_some());
+        assert!(imported.when_resolved().now_or_never().is_some());
+        assert!(matches!(
+            imported.new_call(0, 0, None).send().promise.now_or_never(),
+            Some(Err(_))
+        ));
+        assert!(matches!(embargo_rx.now_or_never(), Some(Ok(Err(_)))));
+        assert!(matches!(
+            promised.new_call(0, 0, None).send().promise.now_or_never(),
+            Some(Err(_))
+        ));
+        assert!(
+            matches!(&pipeline.state.borrow().variant, PipelineVariant::Broken(e) if e.extra == "terminal cause")
+        );
+        // A scheduled resolver completing later cannot overwrite terminal cause.
+        PipelineState::resolve(&pipeline.state, Err(Error::failed("late resolver".into())));
+        assert!(
+            matches!(&pipeline.state.borrow().variant, PipelineVariant::Broken(e) if e.extra == "terminal cause")
+        );
+        assert!(matches!(completion.now_or_never(), Some(Ok(_))));
+    }
+
+    #[test]
+    fn disconnect_is_terminal_before_reentrant_export_drop() {
+        let (_tasks, state, completion) = connection();
+        let weak = Rc::downgrade(&state);
+        let ran = Rc::new(Cell::new(0));
+        let observed = ran.clone();
+        export(&state, move || {
+            observed.set(observed.get() + 1);
+            let state = weak.upgrade().unwrap();
+            assert!(state.new_outgoing_message(0).is_err());
+            assert_eq!(state.exports.borrow().iter().count(), 0);
+            assert!(state.exports_by_cap.borrow().is_empty());
+            state.disconnect(Error::disconnected("reentrant".into()));
+        });
+        state.disconnect(Error::disconnected("terminal cause".into()));
+        assert_eq!(ran.get(), 1);
+        assert!(matches!(completion.now_or_never(), Some(Ok(_))));
+        state.disconnect(Error::disconnected("repeated".into()));
+        assert_eq!(ran.get(), 1);
+    }
+
+    #[test]
+    fn destructor_panic_does_not_skip_exports_or_disconnect_completion() {
+        let (_tasks, state, completion) = connection();
+        export(&state, || panic!("first destructor"));
+        let drops = Rc::new(Cell::new(0));
+        let observed = drops.clone();
+        export(&state, move || observed.set(observed.get() + 1));
+        let panic = catch_unwind(AssertUnwindSafe(|| {
+            state.disconnect(Error::disconnected("terminal cause".into()))
+        }))
+        .unwrap_err();
+        assert_eq!(panic.downcast_ref::<&str>(), Some(&"first destructor"));
+        assert_eq!(drops.get(), 1);
+        assert!(state.connection.borrow().is_err());
+        assert!(state.disconnect_fulfiller.borrow().is_none());
+        assert!(matches!(completion.now_or_never(), Some(Ok(_))));
+        state.disconnect(Error::disconnected("repeated".into()));
+        assert_eq!(drops.get(), 1);
+    }
+
+    #[test]
+    fn multiple_destructor_panics_preserve_first_cause() {
+        // The unpatched implementation aborts on a second destructor panic.
+        // Isolate it so the regression reports failure without killing the suite.
+        const CHILD: &str = "CAPNP_TERMINALIZATION_PANIC_CHILD";
+        if std::env::var_os(CHILD).is_none() {
+            let output = std::process::Command::new(std::env::current_exe().unwrap())
+                .args([
+                    "--exact",
+                    "rpc::terminalization_tests::multiple_destructor_panics_preserve_first_cause",
+                    "--nocapture",
+                ])
+                .env(CHILD, "1")
+                .output()
+                .unwrap();
+            assert!(
+                output.status.success(),
+                "{}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+            return;
+        }
+        struct PanickingPayload;
+        impl Drop for PanickingPayload {
+            fn drop(&mut self) {
+                panic!("secondary payload destructor");
+            }
+        }
+        let (_tasks, state, completion) = connection();
+        export(&state, || panic!("first destructor"));
+        export(&state, || std::panic::panic_any(PanickingPayload));
+        let drops = Rc::new(Cell::new(0));
+        let observed = drops.clone();
+        export(&state, move || observed.set(observed.get() + 1));
+        // Resolve operations are also independent ownership targets, including
+        // futures which have never been polled.
+        let resolve_drops = Rc::new(Cell::new(0));
+        for i in 0..2 {
+            let observed = resolve_drops.clone();
+            let on_drop = DropAction(Box::new(move || {
+                observed.set(observed.get() + 1);
+                assert_ne!(i, 0, "resolve destructor");
+            }));
+            let mut export = Export::new(broken::new_cap(Error::failed("unused".into())));
+            export.resolve_op = Promise::from_future(async move {
+                let _on_drop = on_drop;
+                future::pending::<Result<(), Error>>().await
+            });
+            state.exports.borrow_mut().push(export);
+        }
+        let shared = Rc::new(RefCell::new(Some(state.clone())));
+        let mut disconnector = Disconnector::new(shared.clone());
+        let panic =
+            catch_unwind(AssertUnwindSafe(|| (&mut disconnector).now_or_never())).unwrap_err();
+        assert_eq!(panic.downcast_ref::<&str>(), Some(&"first destructor"));
+        assert_eq!(drops.get(), 1);
+        assert_eq!(resolve_drops.get(), 2);
+        assert!(state.connection.borrow().is_err());
+        assert!(state.disconnect_fulfiller.borrow().is_none());
+        assert!(matches!(completion.now_or_never(), Some(Ok(_))));
+        assert!(matches!(
+            disconnector.state,
+            DisconnectorState::Disconnecting
+        ));
+        // Repeated initiation and later completion neither panic nor drop twice.
+        state.disconnect(Error::disconnected("repeated".into()));
+        assert!((&mut disconnector).now_or_never().is_none());
+        shared.borrow_mut().take();
+        assert!(matches!((&mut disconnector).now_or_never(), Some(Ok(()))));
+        assert!(matches!((&mut disconnector).now_or_never(), Some(Ok(()))));
+        assert_eq!(drops.get(), 1);
+        assert_eq!(resolve_drops.get(), 2);
+    }
+
+    fn preconstructed_request_during_export_drop(streaming: bool) {
+        let (_tasks, state, completion) = connection();
+        let target = ConnectionState::import(&state, 17, false);
+        let mut request = target.new_call(0, 0, None);
+        let drops = Rc::new(Cell::new(0));
+        let observed = drops.clone();
+        let parameter = Box::new(local::Client::new(DropServer(Rc::new(DropAction(
+            Box::new(move || observed.set(observed.get() + 1)),
+        )))));
+        request.get().set_as_capability(parameter);
+        let request = RefCell::new(Some(request));
+        let outcome = Rc::new(RefCell::new(None));
+        let result = outcome.clone();
+        // The request already owns an outgoing transport message. Sending it
+        // from a destructor must not repopulate the drained export/question tables.
+        export(&state, move || {
+            let request = request.borrow_mut().take().unwrap();
+            *result.borrow_mut() = if streaming {
+                request.hook.send_streaming().now_or_never()
+            } else {
+                let pending = request.send();
+                let result = pending.promise.now_or_never().map(|r| r.map(|_| ()));
+                drop(pending.pipeline);
+                result
+            };
+        });
+        assert_eq!(state.questions.borrow().iter().count(), 0);
+        state.disconnect(Error::disconnected("terminal cause".into()));
+        assert_eq!(
+            state.exports.borrow().iter().count(),
+            0,
+            "preconstructed request created an owning export after disconnect"
+        );
+        assert!(state.exports_by_cap.borrow().is_empty());
+        assert_eq!(
+            state.questions.borrow().iter().count(),
+            0,
+            "preconstructed request created a question after disconnect"
+        );
+        assert_eq!(
+            drops.get(),
+            1,
+            "request parameter ownership must be released"
+        );
+        let error = outcome
+            .borrow_mut()
+            .take()
+            .expect("terminal send must settle immediately")
+            .unwrap_err();
+        assert_eq!(error.kind, capnp::ErrorKind::Disconnected);
+        assert_eq!(error.extra, "terminal cause");
+        assert!(matches!(completion.now_or_never(), Some(Ok(_))));
+        state.disconnect(Error::disconnected("repeated".into()));
+        assert_eq!(state.exports.borrow().iter().count(), 0);
+        assert_eq!(state.questions.borrow().iter().count(), 0);
+        assert_eq!(drops.get(), 1);
+    }
+
+    #[test]
+    fn preconstructed_ordinary_request_is_rejected_during_export_drop() {
+        preconstructed_request_during_export_drop(false);
+    }
+
+    #[test]
+    fn preconstructed_streaming_request_is_rejected_during_export_drop() {
+        preconstructed_request_during_export_drop(true);
     }
 }
