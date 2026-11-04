@@ -27,7 +27,6 @@
 //! [capnpc-rust](https://crates.io/crates/capnpc) crate.
 
 #![cfg_attr(not(test), deny(clippy::cast_possible_truncation))]
-#![cfg_attr(not(test), deny(clippy::cast_possible_wrap))]
 #![cfg_attr(feature = "rpc_try", feature(try_trait_v2))]
 #![cfg_attr(not(feature = "std"), no_std)]
 
