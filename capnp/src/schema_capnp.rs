@@ -2,7 +2,7 @@
 // DO NOT EDIT.
 // source: schema.capnp
 // capnp binary version: 1.0.1
-// capnpc crate version: 0.25.3
+// capnpc crate version: 0.25.2
 
 pub mod node {
     pub use self::Which::{Annotation, Const, Enum, File, Interface, Struct};
@@ -511,7 +511,7 @@ pub mod node {
     }
     impl Pipeline {}
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 225] = [
+        pub static ENCODED_NODE: [crate::Word; 225] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(23, 164, 35, 249, 76, 171, 130, 230),
             crate::word(13, 0, 0, 0, 1, 0, 5, 0),
@@ -738,7 +738,7 @@ pub mod node {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <u64 as crate::introspect::Introspect>::introspect(),
                 1 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
@@ -757,25 +757,25 @@ pub mod node {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 4, 5, 12, 13];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[6, 7, 8, 9, 10, 11];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[11, 5, 10, 1, 2, 8, 6, 0, 9, 13, 4, 12, 3, 7];
-        pub(crate) const TYPE_ID: u64 = 0xe682_ab4c_f923_a417;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 4, 5, 12, 13];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[6, 7, 8, 9, 10, 11];
+        pub static MEMBERS_BY_NAME: &[u16] = &[11, 5, 10, 1, 2, 8, 6, 0, 9, 13, 4, 12, 3, 7];
+        pub const TYPE_ID: u64 = 0xe682_ab4c_f923_a417;
     }
     pub enum Which<A0, A1, A2, A3, A4> {
         File(()),
@@ -1036,7 +1036,7 @@ pub mod node {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 33] = [
+            pub static ENCODED_NODE: [crate::Word; 33] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(177, 163, 15, 241, 204, 27, 82, 185),
                 crate::word(18, 0, 0, 0, 1, 0, 0, 0),
@@ -1071,31 +1071,31 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0];
-            pub(crate) const TYPE_ID: u64 = 0xb952_1bcc_f10f_a3b1;
+            pub static NONUNION_MEMBERS: &[u16] = &[0];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[0];
+            pub const TYPE_ID: u64 = 0xb952_1bcc_f10f_a3b1;
         }
     }
 
@@ -1347,7 +1347,7 @@ pub mod node {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 48] = [
+            pub static ENCODED_NODE: [crate::Word; 48] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(66, 194, 15, 250, 187, 85, 191, 222),
                 crate::word(18, 0, 0, 0, 1, 0, 1, 0),
@@ -1397,32 +1397,32 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
                     1 => <u64 as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-            pub(crate) const TYPE_ID: u64 = 0xdebf_55bb_fa0f_c242;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+            pub const TYPE_ID: u64 = 0xdebf_55bb_fa0f_c242;
         }
     }
 
@@ -1740,7 +1740,7 @@ pub mod node {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 71] = [
+            pub static ENCODED_NODE: [crate::Word; 71] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(174, 87, 19, 4, 227, 29, 142, 243),
                 crate::word(18, 0, 0, 0, 1, 0, 1, 0),
@@ -1813,7 +1813,7 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u64 as crate::introspect::Introspect>::introspect(),
                     1 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
@@ -1823,25 +1823,25 @@ pub mod node {
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0, 2];
-            pub(crate) const TYPE_ID: u64 = 0xf38e_1de3_0413_57ae;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0, 2];
+            pub const TYPE_ID: u64 = 0xf38e_1de3_0413_57ae;
         }
 
         pub mod member {
@@ -2092,7 +2092,7 @@ pub mod node {
             }
             impl Pipeline {}
             mod _private {
-                pub(crate) static ENCODED_NODE: [crate::Word; 35] = [
+                pub static ENCODED_NODE: [crate::Word; 35] = [
                     crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                     crate::word(162, 31, 142, 137, 56, 144, 186, 194),
                     crate::word(29, 0, 0, 0, 1, 0, 0, 0),
@@ -2129,31 +2129,31 @@ pub mod node {
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 ];
-                pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+                pub fn get_field_types(index: u16) -> crate::introspect::Type {
                     match index {
                         0 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
                         _ => crate::introspect::panic_invalid_field_index(index),
                     }
                 }
-                pub(crate) fn get_annotation_types(
+                pub fn get_annotation_types(
                     child_index: Option<u16>,
                     index: u32,
                 ) -> crate::introspect::Type {
                     crate::introspect::panic_invalid_annotation_indices(child_index, index)
                 }
-                pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+                pub static ARENA: crate::private::arena::GeneratedCodeArena =
                     crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-                pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+                pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                     crate::introspect::RawStructSchema::new(
                         &ARENA,
                         NONUNION_MEMBERS,
                         MEMBERS_BY_DISCRIMINANT,
                         MEMBERS_BY_NAME,
                     );
-                pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-                pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-                pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0];
-                pub(crate) const TYPE_ID: u64 = 0xc2ba_9038_898e_1fa2;
+                pub static NONUNION_MEMBERS: &[u16] = &[0];
+                pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+                pub static MEMBERS_BY_NAME: &[u16] = &[0];
+                pub const TYPE_ID: u64 = 0xc2ba_9038_898e_1fa2;
             }
         }
     }
@@ -2486,7 +2486,7 @@ pub mod node {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 134] = [
+            pub static ENCODED_NODE: [crate::Word; 134] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(53, 68, 251, 55, 155, 177, 160, 158),
                 crate::word(18, 0, 0, 0, 1, 0, 5, 0),
@@ -2622,7 +2622,7 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u16 as crate::introspect::Introspect>::introspect(),
                     1 => <u16 as crate::introspect::Introspect>::introspect(),
@@ -2634,25 +2634,25 @@ pub mod node {
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 4, 5, 6];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0, 4, 5, 6, 3, 1, 2];
-            pub(crate) const TYPE_ID: u64 = 0x9ea0_b19b_37fb_4435;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 4, 5, 6];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[0, 4, 5, 6, 3, 1, 2];
+            pub const TYPE_ID: u64 = 0x9ea0_b19b_37fb_4435;
         }
     }
 
@@ -2907,7 +2907,7 @@ pub mod node {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 36] = [
+            pub static ENCODED_NODE: [crate::Word; 36] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(152, 245, 51, 67, 54, 179, 74, 181),
                 crate::word(18, 0, 0, 0, 1, 0, 5, 0),
@@ -2945,31 +2945,31 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::struct_list::Owned<crate::schema_capnp::enumerant::Owned> as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0];
-            pub(crate) const TYPE_ID: u64 = 0xb54a_b336_4333_f598;
+            pub static NONUNION_MEMBERS: &[u16] = &[0];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[0];
+            pub const TYPE_ID: u64 = 0xb54a_b336_4333_f598;
         }
     }
 
@@ -3274,7 +3274,7 @@ pub mod node {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 56] = [
+            pub static ENCODED_NODE: [crate::Word; 56] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(143, 33, 194, 240, 207, 83, 39, 232),
                 crate::word(18, 0, 0, 0, 1, 0, 5, 0),
@@ -3332,32 +3332,32 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::struct_list::Owned<crate::schema_capnp::method::Owned> as crate::introspect::Introspect>::introspect(),
                     1 => <crate::struct_list::Owned<crate::schema_capnp::superclass::Owned> as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0, 1];
-            pub(crate) const TYPE_ID: u64 = 0xe827_53cf_f0c2_218f;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[0, 1];
+            pub const TYPE_ID: u64 = 0xe827_53cf_f0c2_218f;
         }
     }
 
@@ -3649,7 +3649,7 @@ pub mod node {
             }
         }
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 46] = [
+            pub static ENCODED_NODE: [crate::Word; 46] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(32, 148, 13, 122, 172, 165, 138, 177),
                 crate::word(18, 0, 0, 0, 1, 0, 5, 0),
@@ -3697,32 +3697,32 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::schema_capnp::type_::Owned as crate::introspect::Introspect>::introspect(),
                     1 => <crate::schema_capnp::value::Owned as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0, 1];
-            pub(crate) const TYPE_ID: u64 = 0xb18a_a5ac_7a0d_9420;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[0, 1];
+            pub const TYPE_ID: u64 = 0xb18a_a5ac_7a0d_9420;
         }
     }
 
@@ -4115,7 +4115,7 @@ pub mod node {
             }
         }
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 227] = [
+            pub static ENCODED_NODE: [crate::Word; 227] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(144, 2, 10, 64, 212, 25, 22, 236),
                 crate::word(18, 0, 0, 0, 1, 0, 5, 0),
@@ -4344,7 +4344,7 @@ pub mod node {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::schema_capnp::type_::Owned as crate::introspect::Introspect>::introspect(),
                     1 => <bool as crate::introspect::Introspect>::introspect(),
@@ -4362,26 +4362,25 @@ pub mod node {
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] =
-                &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[12, 2, 3, 4, 6, 1, 8, 9, 10, 11, 5, 7, 0];
-            pub(crate) const TYPE_ID: u64 = 0xec16_19d4_400a_0290;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[12, 2, 3, 4, 6, 1, 8, 9, 10, 11, 5, 7, 0];
+            pub const TYPE_ID: u64 = 0xec16_19d4_400a_0290;
         }
     }
 }
@@ -4740,7 +4739,7 @@ pub mod field {
         }
     }
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 113] = [
+        pub static ENCODED_NODE: [crate::Word; 113] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(95, 244, 74, 31, 164, 80, 173, 154),
             crate::word(13, 0, 0, 0, 1, 0, 3, 0),
@@ -4855,7 +4854,7 @@ pub mod field {
             crate::word(103, 114, 111, 117, 112, 0, 0, 0),
             crate::word(111, 114, 100, 105, 110, 97, 108, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
                 1 => <u16 as crate::introspect::Introspect>::introspect(),
@@ -4867,25 +4866,25 @@ pub mod field {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 6];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[4, 5];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[2, 1, 3, 5, 0, 6, 4];
-        pub(crate) const TYPE_ID: u64 = 0x9aad_50a4_1f4a_f45f;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 6];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[4, 5];
+        pub static MEMBERS_BY_NAME: &[u16] = &[2, 1, 3, 5, 0, 6, 4];
+        pub const TYPE_ID: u64 = 0x9aad_50a4_1f4a_f45f;
     }
     pub enum Which<A0, A1> {
         Slot(A0),
@@ -5217,7 +5216,7 @@ pub mod field {
             }
         }
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 79] = [
+            pub static ENCODED_NODE: [crate::Word; 79] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(111, 116, 180, 107, 71, 5, 35, 196),
                 crate::word(19, 0, 0, 0, 1, 0, 3, 0),
@@ -5298,7 +5297,7 @@ pub mod field {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u32 as crate::introspect::Introspect>::introspect(),
                     1 => <crate::schema_capnp::type_::Owned as crate::introspect::Introspect>::introspect(),
@@ -5307,25 +5306,25 @@ pub mod field {
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[2, 3, 0, 1];
-            pub(crate) const TYPE_ID: u64 = 0xc423_0547_6bb4_746f;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[2, 3, 0, 1];
+            pub const TYPE_ID: u64 = 0xc423_0547_6bb4_746f;
         }
     }
 
@@ -5542,7 +5541,7 @@ pub mod field {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 32] = [
+            pub static ENCODED_NODE: [crate::Word; 32] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(17, 29, 219, 104, 219, 205, 252, 202),
                 crate::word(19, 0, 0, 0, 1, 0, 3, 0),
@@ -5576,31 +5575,31 @@ pub mod field {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u64 as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0];
-            pub(crate) const TYPE_ID: u64 = 0xcafc_cddb_68db_1d11;
+            pub static NONUNION_MEMBERS: &[u16] = &[0];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[0];
+            pub const TYPE_ID: u64 = 0xcafc_cddb_68db_1d11;
         }
     }
 
@@ -5834,7 +5833,7 @@ pub mod field {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 49] = [
+            pub static ENCODED_NODE: [crate::Word; 49] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(230, 11, 135, 135, 194, 213, 144, 187),
                 crate::word(19, 0, 0, 0, 1, 0, 3, 0),
@@ -5885,32 +5884,32 @@ pub mod field {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <() as crate::introspect::Introspect>::introspect(),
                     1 => <u16 as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-            pub(crate) const TYPE_ID: u64 = 0xbb90_d5c2_8787_0be6;
+            pub static NONUNION_MEMBERS: &[u16] = &[];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+            pub const TYPE_ID: u64 = 0xbb90_d5c2_8787_0be6;
         }
         pub enum Which {
             Implicit(()),
@@ -6212,7 +6211,7 @@ pub mod enumerant {
     }
     impl Pipeline {}
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 68] = [
+        pub static ENCODED_NODE: [crate::Word; 68] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(77, 154, 84, 220, 235, 124, 138, 151),
             crate::word(13, 0, 0, 0, 1, 0, 1, 0),
@@ -6282,7 +6281,7 @@ pub mod enumerant {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
                 1 => <u16 as crate::introspect::Introspect>::introspect(),
@@ -6290,25 +6289,25 @@ pub mod enumerant {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[2, 1, 0];
-        pub(crate) const TYPE_ID: u64 = 0x978a_7ceb_dc54_9a4d;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+        pub static MEMBERS_BY_NAME: &[u16] = &[2, 1, 0];
+        pub const TYPE_ID: u64 = 0x978a_7ceb_dc54_9a4d;
     }
 }
 
@@ -6563,7 +6562,7 @@ pub mod superclass {
         }
     }
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 47] = [
+        pub static ENCODED_NODE: [crate::Word; 47] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(248, 215, 164, 208, 158, 42, 150, 169),
             crate::word(13, 0, 0, 0, 1, 0, 1, 0),
@@ -6612,7 +6611,7 @@ pub mod superclass {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <u64 as crate::introspect::Introspect>::introspect(),
                 1 => {
@@ -6622,25 +6621,25 @@ pub mod superclass {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-        pub(crate) const TYPE_ID: u64 = 0xa996_2a9e_d0a4_d7f8;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+        pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+        pub const TYPE_ID: u64 = 0xa996_2a9e_d0a4_d7f8;
     }
 }
 
@@ -7088,7 +7087,7 @@ pub mod method {
         }
     }
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 154] = [
+        pub static ENCODED_NODE: [crate::Word; 154] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(128, 77, 51, 59, 226, 204, 0, 149),
             crate::word(13, 0, 0, 0, 1, 0, 3, 0),
@@ -7244,7 +7243,7 @@ pub mod method {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
                 1 => <u16 as crate::introspect::Introspect>::introspect(),
@@ -7257,25 +7256,25 @@ pub mod method {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 4, 5, 6, 7];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[4, 1, 7, 0, 5, 2, 6, 3];
-        pub(crate) const TYPE_ID: u64 = 0x9500_cce2_3b33_4d80;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3, 4, 5, 6, 7];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+        pub static MEMBERS_BY_NAME: &[u16] = &[4, 1, 7, 0, 5, 2, 6, 3];
+        pub const TYPE_ID: u64 = 0x9500_cce2_3b33_4d80;
     }
 }
 
@@ -7625,7 +7624,7 @@ pub mod type_ {
     }
     impl Pipeline {}
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 269] = [
+        pub static ENCODED_NODE: [crate::Word; 269] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(96, 204, 249, 225, 237, 120, 115, 208),
             crate::word(13, 0, 0, 0, 1, 0, 3, 0),
@@ -7896,7 +7895,7 @@ pub mod type_ {
             crate::word(97, 110, 121, 80, 111, 105, 110, 116),
             crate::word(101, 114, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <() as crate::introspect::Introspect>::introspect(),
                 1 => <() as crate::introspect::Introspect>::introspect(),
@@ -7920,29 +7919,29 @@ pub mod type_ {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[
+        pub static NONUNION_MEMBERS: &[u16] = &[];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
         ];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[
+        pub static MEMBERS_BY_NAME: &[u16] = &[
             18, 1, 13, 15, 10, 11, 3, 4, 5, 2, 17, 14, 16, 12, 7, 8, 9, 6, 0,
         ];
-        pub(crate) const TYPE_ID: u64 = 0xd073_78ed_e1f9_cc60;
+        pub const TYPE_ID: u64 = 0xd073_78ed_e1f9_cc60;
     }
     pub enum Which<A0, A1, A2, A3, A4> {
         Void(()),
@@ -8227,7 +8226,7 @@ pub mod type_ {
             }
         }
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 32] = [
+            pub static ENCODED_NODE: [crate::Word; 32] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(151, 234, 96, 10, 37, 57, 231, 135),
                 crate::word(18, 0, 0, 0, 1, 0, 3, 0),
@@ -8261,31 +8260,31 @@ pub mod type_ {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::schema_capnp::type_::Owned as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0];
-            pub(crate) const TYPE_ID: u64 = 0x87e7_3925_0a60_ea97;
+            pub static NONUNION_MEMBERS: &[u16] = &[0];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[0];
+            pub const TYPE_ID: u64 = 0x87e7_3925_0a60_ea97;
         }
     }
 
@@ -8546,7 +8545,7 @@ pub mod type_ {
             }
         }
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 46] = [
+            pub static ENCODED_NODE: [crate::Word; 46] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(169, 135, 127, 26, 113, 120, 14, 158),
                 crate::word(18, 0, 0, 0, 1, 0, 3, 0),
@@ -8594,32 +8593,32 @@ pub mod type_ {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u64 as crate::introspect::Introspect>::introspect(),
                     1 => <crate::schema_capnp::brand::Owned as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-            pub(crate) const TYPE_ID: u64 = 0x9e0e_7871_1a7f_87a9;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+            pub const TYPE_ID: u64 = 0x9e0e_7871_1a7f_87a9;
         }
     }
 
@@ -8880,7 +8879,7 @@ pub mod type_ {
             }
         }
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 47] = [
+            pub static ENCODED_NODE: [crate::Word; 47] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(211, 198, 76, 239, 96, 111, 58, 172),
                 crate::word(18, 0, 0, 0, 1, 0, 3, 0),
@@ -8929,32 +8928,32 @@ pub mod type_ {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u64 as crate::introspect::Introspect>::introspect(),
                     1 => <crate::schema_capnp::brand::Owned as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-            pub(crate) const TYPE_ID: u64 = 0xac3a_6f60_ef4c_c6d3;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+            pub const TYPE_ID: u64 = 0xac3a_6f60_ef4c_c6d3;
         }
     }
 
@@ -9215,7 +9214,7 @@ pub mod type_ {
             }
         }
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 47] = [
+            pub static ENCODED_NODE: [crate::Word; 47] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(191, 12, 251, 247, 105, 202, 139, 237),
                 crate::word(18, 0, 0, 0, 1, 0, 3, 0),
@@ -9264,32 +9263,32 @@ pub mod type_ {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u64 as crate::introspect::Introspect>::introspect(),
                     1 => <crate::schema_capnp::brand::Owned as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-            pub(crate) const TYPE_ID: u64 = 0xed8b_ca69_f7fb_0cbf;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+            pub const TYPE_ID: u64 = 0xed8b_ca69_f7fb_0cbf;
         }
     }
 
@@ -9540,7 +9539,7 @@ pub mod type_ {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 45] = [
+            pub static ENCODED_NODE: [crate::Word; 45] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(241, 73, 62, 162, 232, 63, 87, 194),
                 crate::word(18, 0, 0, 0, 1, 0, 3, 0),
@@ -9587,7 +9586,7 @@ pub mod type_ {
                 crate::word(77, 101, 116, 104, 111, 100, 80, 97),
                 crate::word(114, 97, 109, 101, 116, 101, 114, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <crate::schema_capnp::type_::any_pointer::unconstrained::Owned as crate::introspect::Introspect>::introspect(),
                     1 => <crate::schema_capnp::type_::any_pointer::parameter::Owned as crate::introspect::Introspect>::introspect(),
@@ -9595,25 +9594,25 @@ pub mod type_ {
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1, 2];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[2, 1, 0];
-            pub(crate) const TYPE_ID: u64 = 0xc257_3fe8_a23e_49f1;
+            pub static NONUNION_MEMBERS: &[u16] = &[];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1, 2];
+            pub static MEMBERS_BY_NAME: &[u16] = &[2, 1, 0];
+            pub const TYPE_ID: u64 = 0xc257_3fe8_a23e_49f1;
         }
         pub enum Which<A0, A1, A2> {
             Unconstrained(A0),
@@ -9879,7 +9878,7 @@ pub mod type_ {
             }
             impl Pipeline {}
             mod _private {
-                pub(crate) static ENCODED_NODE: [crate::Word; 80] = [
+                pub static ENCODED_NODE: [crate::Word; 80] = [
                     crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                     crate::word(86, 54, 89, 254, 121, 95, 59, 142),
                     crate::word(29, 0, 0, 0, 1, 0, 3, 0),
@@ -9961,7 +9960,7 @@ pub mod type_ {
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 ];
-                pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+                pub fn get_field_types(index: u16) -> crate::introspect::Type {
                     match index {
                         0 => <() as crate::introspect::Introspect>::introspect(),
                         1 => <() as crate::introspect::Introspect>::introspect(),
@@ -9970,25 +9969,25 @@ pub mod type_ {
                         _ => crate::introspect::panic_invalid_field_index(index),
                     }
                 }
-                pub(crate) fn get_annotation_types(
+                pub fn get_annotation_types(
                     child_index: Option<u16>,
                     index: u32,
                 ) -> crate::introspect::Type {
                     crate::introspect::panic_invalid_annotation_indices(child_index, index)
                 }
-                pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+                pub static ARENA: crate::private::arena::GeneratedCodeArena =
                     crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-                pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+                pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                     crate::introspect::RawStructSchema::new(
                         &ARENA,
                         NONUNION_MEMBERS,
                         MEMBERS_BY_DISCRIMINANT,
                         MEMBERS_BY_NAME,
                     );
-                pub(crate) static NONUNION_MEMBERS: &[u16] = &[];
-                pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1, 2, 3];
-                pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0, 3, 2, 1];
-                pub(crate) const TYPE_ID: u64 = 0x8e3b_5f79_fe59_3656;
+                pub static NONUNION_MEMBERS: &[u16] = &[];
+                pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1, 2, 3];
+                pub static MEMBERS_BY_NAME: &[u16] = &[0, 3, 2, 1];
+                pub const TYPE_ID: u64 = 0x8e3b_5f79_fe59_3656;
             }
             pub enum Which {
                 AnyKind(()),
@@ -10234,7 +10233,7 @@ pub mod type_ {
             }
             impl Pipeline {}
             mod _private {
-                pub(crate) static ENCODED_NODE: [crate::Word; 49] = [
+                pub static ENCODED_NODE: [crate::Word; 49] = [
                     crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                     crate::word(133, 74, 97, 244, 36, 247, 209, 157),
                     crate::word(29, 0, 0, 0, 1, 0, 3, 0),
@@ -10285,32 +10284,32 @@ pub mod type_ {
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 ];
-                pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+                pub fn get_field_types(index: u16) -> crate::introspect::Type {
                     match index {
                         0 => <u64 as crate::introspect::Introspect>::introspect(),
                         1 => <u16 as crate::introspect::Introspect>::introspect(),
                         _ => crate::introspect::panic_invalid_field_index(index),
                     }
                 }
-                pub(crate) fn get_annotation_types(
+                pub fn get_annotation_types(
                     child_index: Option<u16>,
                     index: u32,
                 ) -> crate::introspect::Type {
                     crate::introspect::panic_invalid_annotation_indices(child_index, index)
                 }
-                pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+                pub static ARENA: crate::private::arena::GeneratedCodeArena =
                     crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-                pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+                pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                     crate::introspect::RawStructSchema::new(
                         &ARENA,
                         NONUNION_MEMBERS,
                         MEMBERS_BY_DISCRIMINANT,
                         MEMBERS_BY_NAME,
                     );
-                pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-                pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-                pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-                pub(crate) const TYPE_ID: u64 = 0x9dd1_f724_f461_4a85;
+                pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+                pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+                pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+                pub const TYPE_ID: u64 = 0x9dd1_f724_f461_4a85;
             }
         }
 
@@ -10536,7 +10535,7 @@ pub mod type_ {
             }
             impl Pipeline {}
             mod _private {
-                pub(crate) static ENCODED_NODE: [crate::Word; 36] = [
+                pub static ENCODED_NODE: [crate::Word; 36] = [
                     crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                     crate::word(116, 226, 86, 12, 18, 201, 239, 186),
                     crate::word(29, 0, 0, 0, 1, 0, 3, 0),
@@ -10574,31 +10573,31 @@ pub mod type_ {
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 ];
-                pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+                pub fn get_field_types(index: u16) -> crate::introspect::Type {
                     match index {
                         0 => <u16 as crate::introspect::Introspect>::introspect(),
                         _ => crate::introspect::panic_invalid_field_index(index),
                     }
                 }
-                pub(crate) fn get_annotation_types(
+                pub fn get_annotation_types(
                     child_index: Option<u16>,
                     index: u32,
                 ) -> crate::introspect::Type {
                     crate::introspect::panic_invalid_annotation_indices(child_index, index)
                 }
-                pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+                pub static ARENA: crate::private::arena::GeneratedCodeArena =
                     crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-                pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+                pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                     crate::introspect::RawStructSchema::new(
                         &ARENA,
                         NONUNION_MEMBERS,
                         MEMBERS_BY_DISCRIMINANT,
                         MEMBERS_BY_NAME,
                     );
-                pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-                pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-                pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0];
-                pub(crate) const TYPE_ID: u64 = 0xbaef_c912_0c56_e274;
+                pub static NONUNION_MEMBERS: &[u16] = &[0];
+                pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+                pub static MEMBERS_BY_NAME: &[u16] = &[0];
+                pub const TYPE_ID: u64 = 0xbaef_c912_0c56_e274;
             }
         }
     }
@@ -10848,7 +10847,7 @@ pub mod brand {
     }
     impl Pipeline {}
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 42] = [
+        pub static ENCODED_NODE: [crate::Word; 42] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(43, 66, 101, 96, 240, 85, 52, 144),
             crate::word(13, 0, 0, 0, 1, 0, 0, 0),
@@ -10892,31 +10891,31 @@ pub mod brand {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <crate::struct_list::Owned<crate::schema_capnp::brand::scope::Owned> as crate::introspect::Introspect>::introspect(),
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0];
-        pub(crate) const TYPE_ID: u64 = 0x9034_55f0_6065_422b;
+        pub static NONUNION_MEMBERS: &[u16] = &[0];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+        pub static MEMBERS_BY_NAME: &[u16] = &[0];
+        pub const TYPE_ID: u64 = 0x9034_55f0_6065_422b;
     }
 
     pub mod scope {
@@ -11202,7 +11201,7 @@ pub mod brand {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 67] = [
+            pub static ENCODED_NODE: [crate::Word; 67] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(201, 107, 99, 169, 133, 52, 215, 171),
                 crate::word(19, 0, 0, 0, 1, 0, 2, 0),
@@ -11271,7 +11270,7 @@ pub mod brand {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u64 as crate::introspect::Introspect>::introspect(),
                     1 => <crate::struct_list::Owned<crate::schema_capnp::brand::binding::Owned> as crate::introspect::Introspect>::introspect(),
@@ -11279,25 +11278,25 @@ pub mod brand {
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[1, 2];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 2, 0];
-            pub(crate) const TYPE_ID: u64 = 0xabd7_3485_a963_6bc9;
+            pub static NONUNION_MEMBERS: &[u16] = &[0];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[1, 2];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 2, 0];
+            pub const TYPE_ID: u64 = 0xabd7_3485_a963_6bc9;
         }
         pub enum Which<A0> {
             Bind(A0),
@@ -11582,7 +11581,7 @@ pub mod brand {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 48] = [
+            pub static ENCODED_NODE: [crate::Word; 48] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(252, 231, 158, 150, 22, 205, 99, 200),
                 crate::word(19, 0, 0, 0, 1, 0, 1, 0),
@@ -11632,32 +11631,32 @@ pub mod brand {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <() as crate::introspect::Introspect>::introspect(),
                     1 => <crate::schema_capnp::type_::Owned as crate::introspect::Introspect>::introspect(),
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0];
-            pub(crate) const TYPE_ID: u64 = 0xc863_cd16_969e_e7fc;
+            pub static NONUNION_MEMBERS: &[u16] = &[];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[0, 1];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0];
+            pub const TYPE_ID: u64 = 0xc863_cd16_969e_e7fc;
         }
         pub enum Which<A0> {
             Unbound(()),
@@ -12137,7 +12136,7 @@ pub mod value {
     }
     impl Pipeline {}
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 304] = [
+        pub static ENCODED_NODE: [crate::Word; 304] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(155, 12, 176, 215, 210, 220, 35, 206),
             crate::word(13, 0, 0, 0, 1, 0, 2, 0),
@@ -12443,7 +12442,7 @@ pub mod value {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <() as crate::introspect::Introspect>::introspect(),
                 1 => <bool as crate::introspect::Introspect>::introspect(),
@@ -12467,29 +12466,29 @@ pub mod value {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[
+        pub static NONUNION_MEMBERS: &[u16] = &[];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
         ];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[
+        pub static MEMBERS_BY_NAME: &[u16] = &[
             18, 1, 13, 15, 10, 11, 3, 4, 5, 2, 17, 14, 16, 12, 7, 8, 9, 6, 0,
         ];
-        pub(crate) const TYPE_ID: u64 = 0xce23_dcd2_d7b0_0c9b;
+        pub const TYPE_ID: u64 = 0xce23_dcd2_d7b0_0c9b;
     }
     pub enum Which<A0, A1, A2, A3, A4> {
         Void(()),
@@ -12819,7 +12818,7 @@ pub mod annotation {
         }
     }
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 62] = [
+        pub static ENCODED_NODE: [crate::Word; 62] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(66, 117, 37, 171, 13, 149, 200, 241),
             crate::word(13, 0, 0, 0, 1, 0, 1, 0),
@@ -12883,7 +12882,7 @@ pub mod annotation {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <u64 as crate::introspect::Introspect>::introspect(),
                 1 => {
@@ -12897,25 +12896,25 @@ pub mod annotation {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[2, 0, 1];
-        pub(crate) const TYPE_ID: u64 = 0xf1c8_950d_ab25_7542;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+        pub static MEMBERS_BY_NAME: &[u16] = &[2, 0, 1];
+        pub const TYPE_ID: u64 = 0xf1c8_950d_ab25_7542;
     }
 }
 
@@ -12982,7 +12981,7 @@ impl crate::traits::HasTypeId for ElementSize {
     const TYPE_ID: u64 = 0xd195_8f7d_ba52_1926u64;
 }
 mod element_size {
-    pub(crate) static ENCODED_NODE: [crate::Word; 54] = [
+    pub static ENCODED_NODE: [crate::Word; 54] = [
         crate::word(0, 0, 0, 0, 5, 0, 6, 0),
         crate::word(38, 25, 82, 186, 125, 143, 149, 209),
         crate::word(13, 0, 0, 0, 2, 0, 0, 0),
@@ -13038,10 +13037,7 @@ mod element_size {
         crate::word(105, 110, 108, 105, 110, 101, 67, 111),
         crate::word(109, 112, 111, 115, 105, 116, 101, 0),
     ];
-    pub(crate) fn get_annotation_types(
-        child_index: Option<u16>,
-        index: u32,
-    ) -> crate::introspect::Type {
+    pub fn get_annotation_types(child_index: Option<u16>, index: u32) -> crate::introspect::Type {
         crate::introspect::panic_invalid_annotation_indices(child_index, index)
     }
 }
@@ -13280,7 +13276,7 @@ pub mod capnp_version {
     }
     impl Pipeline {}
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 63] = [
+        pub static ENCODED_NODE: [crate::Word; 63] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(99, 153, 131, 125, 91, 48, 93, 216),
             crate::word(13, 0, 0, 0, 1, 0, 1, 0),
@@ -13345,7 +13341,7 @@ pub mod capnp_version {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <u16 as crate::introspect::Introspect>::introspect(),
                 1 => <u8 as crate::introspect::Introspect>::introspect(),
@@ -13353,25 +13349,25 @@ pub mod capnp_version {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0, 2, 1];
-        pub(crate) const TYPE_ID: u64 = 0xd85d_305b_7d83_9963;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+        pub static MEMBERS_BY_NAME: &[u16] = &[0, 2, 1];
+        pub const TYPE_ID: u64 = 0xd85d_305b_7d83_9963;
     }
 }
 
@@ -13773,7 +13769,7 @@ pub mod code_generator_request {
         }
     }
     mod _private {
-        pub(crate) static ENCODED_NODE: [crate::Word; 98] = [
+        pub static ENCODED_NODE: [crate::Word; 98] = [
             crate::word(0, 0, 0, 0, 5, 0, 6, 0),
             crate::word(206, 215, 10, 33, 246, 70, 197, 191),
             crate::word(13, 0, 0, 0, 1, 0, 0, 0),
@@ -13873,7 +13869,7 @@ pub mod code_generator_request {
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             crate::word(0, 0, 0, 0, 0, 0, 0, 0),
         ];
-        pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+        pub fn get_field_types(index: u16) -> crate::introspect::Type {
             match index {
                 0 => <crate::struct_list::Owned<crate::schema_capnp::node::Owned> as crate::introspect::Introspect>::introspect(),
                 1 => <crate::struct_list::Owned<crate::schema_capnp::code_generator_request::requested_file::Owned> as crate::introspect::Introspect>::introspect(),
@@ -13882,25 +13878,25 @@ pub mod code_generator_request {
                 _ => crate::introspect::panic_invalid_field_index(index),
             }
         }
-        pub(crate) fn get_annotation_types(
+        pub fn get_annotation_types(
             child_index: Option<u16>,
             index: u32,
         ) -> crate::introspect::Type {
             crate::introspect::panic_invalid_annotation_indices(child_index, index)
         }
-        pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+        pub static ARENA: crate::private::arena::GeneratedCodeArena =
             crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-        pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+        pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
             crate::introspect::RawStructSchema::new(
                 &ARENA,
                 NONUNION_MEMBERS,
                 MEMBERS_BY_DISCRIMINANT,
                 MEMBERS_BY_NAME,
             );
-        pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3];
-        pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-        pub(crate) static MEMBERS_BY_NAME: &[u16] = &[2, 0, 1, 3];
-        pub(crate) const TYPE_ID: u64 = 0xbfc5_46f6_210a_d7ce;
+        pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2, 3];
+        pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+        pub static MEMBERS_BY_NAME: &[u16] = &[2, 0, 1, 3];
+        pub const TYPE_ID: u64 = 0xbfc5_46f6_210a_d7ce;
     }
 
     pub mod requested_file {
@@ -14217,7 +14213,7 @@ pub mod code_generator_request {
         }
         impl Pipeline {}
         mod _private {
-            pub(crate) static ENCODED_NODE: [crate::Word; 73] = [
+            pub static ENCODED_NODE: [crate::Word; 73] = [
                 crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                 crate::word(98, 0, 129, 46, 176, 14, 234, 207),
                 crate::word(34, 0, 0, 0, 1, 0, 1, 0),
@@ -14292,7 +14288,7 @@ pub mod code_generator_request {
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 crate::word(0, 0, 0, 0, 0, 0, 0, 0),
             ];
-            pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+            pub fn get_field_types(index: u16) -> crate::introspect::Type {
                 match index {
                     0 => <u64 as crate::introspect::Introspect>::introspect(),
                     1 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
@@ -14302,25 +14298,25 @@ pub mod code_generator_request {
                     _ => crate::introspect::panic_invalid_field_index(index),
                 }
             }
-            pub(crate) fn get_annotation_types(
+            pub fn get_annotation_types(
                 child_index: Option<u16>,
                 index: u32,
             ) -> crate::introspect::Type {
                 crate::introspect::panic_invalid_annotation_indices(child_index, index)
             }
-            pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+            pub static ARENA: crate::private::arena::GeneratedCodeArena =
                 crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-            pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+            pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                 crate::introspect::RawStructSchema::new(
                     &ARENA,
                     NONUNION_MEMBERS,
                     MEMBERS_BY_DISCRIMINANT,
                     MEMBERS_BY_NAME,
                 );
-            pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
-            pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-            pub(crate) static MEMBERS_BY_NAME: &[u16] = &[1, 0, 2];
-            pub(crate) const TYPE_ID: u64 = 0xcfea_0eb0_2e81_0062;
+            pub static NONUNION_MEMBERS: &[u16] = &[0, 1, 2];
+            pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+            pub static MEMBERS_BY_NAME: &[u16] = &[1, 0, 2];
+            pub const TYPE_ID: u64 = 0xcfea_0eb0_2e81_0062;
         }
 
         pub mod import {
@@ -14583,7 +14579,7 @@ pub mod code_generator_request {
             }
             impl Pipeline {}
             mod _private {
-                pub(crate) static ENCODED_NODE: [crate::Word; 51] = [
+                pub static ENCODED_NODE: [crate::Word; 51] = [
                     crate::word(0, 0, 0, 0, 5, 0, 6, 0),
                     crate::word(229, 87, 35, 18, 147, 65, 80, 174),
                     crate::word(48, 0, 0, 0, 1, 0, 1, 0),
@@ -14636,32 +14632,32 @@ pub mod code_generator_request {
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                     crate::word(0, 0, 0, 0, 0, 0, 0, 0),
                 ];
-                pub(crate) fn get_field_types(index: u16) -> crate::introspect::Type {
+                pub fn get_field_types(index: u16) -> crate::introspect::Type {
                     match index {
                         0 => <u64 as crate::introspect::Introspect>::introspect(),
                         1 => <crate::text::Owned as crate::introspect::Introspect>::introspect(),
                         _ => crate::introspect::panic_invalid_field_index(index),
                     }
                 }
-                pub(crate) fn get_annotation_types(
+                pub fn get_annotation_types(
                     child_index: Option<u16>,
                     index: u32,
                 ) -> crate::introspect::Type {
                     crate::introspect::panic_invalid_annotation_indices(child_index, index)
                 }
-                pub(crate) static ARENA: crate::private::arena::GeneratedCodeArena =
+                pub static ARENA: crate::private::arena::GeneratedCodeArena =
                     crate::private::arena::GeneratedCodeArena::new(&ENCODED_NODE);
-                pub(crate) static RAW_SCHEMA: crate::introspect::RawStructSchema =
+                pub static RAW_SCHEMA: crate::introspect::RawStructSchema =
                     crate::introspect::RawStructSchema::new(
                         &ARENA,
                         NONUNION_MEMBERS,
                         MEMBERS_BY_DISCRIMINANT,
                         MEMBERS_BY_NAME,
                     );
-                pub(crate) static NONUNION_MEMBERS: &[u16] = &[0, 1];
-                pub(crate) static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
-                pub(crate) static MEMBERS_BY_NAME: &[u16] = &[0, 1];
-                pub(crate) const TYPE_ID: u64 = 0xae50_4193_1223_57e5;
+                pub static NONUNION_MEMBERS: &[u16] = &[0, 1];
+                pub static MEMBERS_BY_DISCRIMINANT: &[u16] = &[];
+                pub static MEMBERS_BY_NAME: &[u16] = &[0, 1];
+                pub const TYPE_ID: u64 = 0xae50_4193_1223_57e5;
             }
         }
     }

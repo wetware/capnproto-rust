@@ -317,15 +317,10 @@ where
         value: &'a [T],
         _canonicalize: bool,
     ) -> Result<()> {
-        let builder = pointer.init_list(
-            <T as PrimitiveElement>::element_size(),
-            value
-                .len()
-                .try_into()
-                .expect("list size too large to fit in a u32"),
-        );
+        let builder =
+            pointer.init_list(<T as PrimitiveElement>::element_size(), value.len() as u32);
         for (idx, v) in value.iter().enumerate() {
-            PrimitiveElement::set(&builder, u32::try_from(idx).unwrap(), *v)
+            PrimitiveElement::set(&builder, idx as u32, *v)
         }
         Ok(())
     }

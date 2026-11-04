@@ -42,21 +42,16 @@ pub unsafe trait ReaderArena {
     ) -> Result<*const u8> {
         let (segment_start, segment_len) = self.get_segment(segment_id)?;
         let this_start: usize = segment_start as usize;
-        let this_size: usize = usize::try_from(segment_len).unwrap() * BYTES_PER_WORD;
-        let offset: i64 = i64::from(offset_in_words) * i64::try_from(BYTES_PER_WORD).unwrap();
+        let this_size: usize = segment_len as usize * BYTES_PER_WORD;
+        let offset: i64 = i64::from(offset_in_words) * BYTES_PER_WORD as i64;
         let start_idx = start as usize;
-        if start_idx < this_start {
-            return Err(Error::from_kind(
-                ErrorKind::MessageContainsOutOfBoundsPointer,
-            ));
-        }
-        let target_idx = i64::try_from(start_idx - this_start).unwrap() + offset;
-        if target_idx < 0 || usize::try_from(target_idx).unwrap() > this_size {
+        if start_idx < this_start || ((start_idx - this_start) as i64 + offset) as usize > this_size
+        {
             Err(Error::from_kind(
                 ErrorKind::MessageContainsOutOfBoundsPointer,
             ))
         } else {
-            unsafe { Ok(start.offset(isize::try_from(offset).unwrap())) }
+            unsafe { Ok(start.offset(offset as isize)) }
         }
     }
 
@@ -122,10 +117,7 @@ where
                     }
                 }
 
-                Ok((
-                    seg.as_ptr(),
-                    u32::try_from(seg.len() / BYTES_PER_WORD).unwrap(),
-                ))
+                Ok((seg.as_ptr(), (seg.len() / BYTES_PER_WORD) as u32))
             }
             None => Err(Error::from_kind(ErrorKind::InvalidSegmentId(id))),
         }
@@ -148,8 +140,7 @@ where
     }
 
     fn amplified_read(&self, virtual_amount: u64) -> Result<()> {
-        self.read_limiter
-            .can_read(usize::try_from(virtual_amount).unwrap())
+        self.read_limiter.can_read(virtual_amount as usize)
     }
 
     fn nesting_limit(&self) -> i32 {
@@ -158,8 +149,8 @@ where
 
     fn size_in_words(&self) -> usize {
         let mut result = 0;
-        for ii in 0..u32::try_from(self.segments.len()).unwrap() {
-            if let Some(seg) = self.segments.get_segment(ii) {
+        for ii in 0..self.segments.len() {
+            if let Some(seg) = self.segments.get_segment(ii as u32) {
                 result += seg.len() / BYTES_PER_WORD;
             }
         }
@@ -343,14 +334,7 @@ where
         start: *const u8,
         offset_in_words: i32,
     ) -> Result<*const u8> {
-        unsafe {
-            Ok(start.offset(
-                isize::try_from(
-                    i64::from(offset_in_words) * i64::try_from(BYTES_PER_WORD).unwrap(),
-                )
-                .unwrap(),
-            ))
-        }
+        unsafe { Ok(start.offset((i64::from(offset_in_words) * BYTES_PER_WORD as i64) as isize)) }
     }
 
     fn contains_interval(&self, _id: u32, _start: *const u8, _size: usize) -> Result<()> {
@@ -405,7 +389,7 @@ where
 
     fn allocate_anywhere(&mut self, amount: u32) -> (SegmentId, u32) {
         // first try the existing segments, then try allocating a new segment.
-        let allocated_len = u32::try_from(self.segments.len()).unwrap();
+        let allocated_len = self.segments.len() as u32;
         for segment_id in 0..allocated_len {
             if let Some(idx) = self.allocate(segment_id, amount) {
                 return (segment_id, idx);
@@ -489,8 +473,8 @@ unsafe impl ReaderArena for NullArena {
         start: *const u8,
         offset_in_words: i32,
     ) -> Result<*const u8> {
-        let offset_in_bytes = (offset_in_words as i64) * i64::try_from(BYTES_PER_WORD).unwrap();
-        unsafe { Ok(start.offset(isize::try_from(offset_in_bytes).unwrap())) }
+        let offset_in_bytes = (offset_in_words as i64) * BYTES_PER_WORD as i64;
+        unsafe { Ok(start.offset(offset_in_bytes as isize)) }
     }
 
     fn contains_interval(&self, _id: u32, _start: *const u8, _size: usize) -> Result<()> {
@@ -528,10 +512,7 @@ impl GeneratedCodeArena {
 unsafe impl ReaderArena for GeneratedCodeArena {
     fn get_segment(&self, id: u32) -> Result<(*const u8, u32)> {
         if id == 0 {
-            Ok((
-                self.words.as_ptr() as *const _,
-                u32::try_from(self.words.len()).unwrap(),
-            ))
+            Ok((self.words.as_ptr() as *const _, self.words.len() as u32))
         } else {
             Err(Error::from_kind(ErrorKind::InvalidSegmentId(id)))
         }
